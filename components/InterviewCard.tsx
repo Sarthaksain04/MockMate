@@ -6,10 +6,7 @@ import { Button } from "./ui/button";
 import DisplayTechIcons from "./DisplayTechIcons";
 
 import { cn, getRandomInterviewCover } from "@/lib/utils";
-// import { getFeedbackByInterviewId } from "@/lib/actions/general.action";
-
-
-type InterviewType = "Behavioral" | "Mixed" | "Technical";
+import { getFeedbackByInterviewId } from "@/lib/actions/general.action";
 
 const InterviewCard = async ({
   interviewId,
@@ -27,16 +24,15 @@ const InterviewCard = async ({
         })
       : null;
 
-  const normalizedType: InterviewType = /mix/gi.test(type) ? "Mixed" : type;
+  const normalizedType = /mix/gi.test(type) ? "Mixed" : type;
 
-  const badgeColor: Record<InterviewType, string>  =
+  const badgeColor =
     {
       Behavioral: "bg-light-400",
       Mixed: "bg-light-600",
       Technical: "bg-light-800",
-    };
-    
-  
+    }[normalizedType] || "bg-light-600";
+
   const formattedDate = dayjs(
     feedback?.createdAt || createdAt || Date.now()
   ).format("MMM D, YYYY");
